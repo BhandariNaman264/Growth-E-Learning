@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#username {
+    display: none !important;
+}
+
+
+#chat-log {
+
+    background: #FFF;
+    border-radius: 10px;
+}
+
+#my-screen-video{
+    background: #FFF;
+    border-radius: 10px;
+    max-width: 60vh;
+}
+
+#video-container{
+    background: #FFF;
+    border-radius: 10px;
+    max-width: 60vh;
+}
+
+
+#chat-message-input {
+    display: flex; /* this activates the div to become a flexbox, and every item you put inside of it becomes a FLEX ITEM */
+    flex-wrap: wrap; /* helps images that go out of border to move to next line, kinda like text wrapping in MS word. */
+    padding: 5px; /* to keep the items inside not touching the border */
+    flex-direction: row;
+
+    /* VIMP */
+    justify-content: space-around; /* THIS IS THE ONE TO MAKE ITEMS IN THE CENTRE!!!!!!
+     - also it gives inherent PADDING */
+
+    align-self: auto;
+    height: 4vh;
+}
+
+
+.video-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: black;
+}
+  
+.main-grid-container {
+    display: grid;
+    grid-template-columns: 60% 20%;
+}
+
+video {
+    border-radius: 3%;
+    background-color: black;
+    display: inline-block;
+    margin-right: 10px;
+    transform: scale(0.8, 0.8);
+    -ms-transform: scale(0.8, 0.8); 
+    -webkit-transform: scale(0.8, 0.8); 
+    -o-transform: scale(0.8, 0.8); 
+    -moz-transform: scale(0.8, 0.8);
+}

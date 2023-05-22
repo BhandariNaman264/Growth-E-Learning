@@ -1,0 +1,22 @@
+{% extends 'builder.html' %}
+
+{% load static %}
+
+{% block header %}
+
+    <meta charset="UTF-8">
+    <title>Video Conferencing</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/video.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+    {% include "video_chat/partials/video_chat.html" %}
+    <script>
+        var numbTurnCredential = '{{numb_turn_credential}}';
+        var numbTurnUsername = '{{numb_turn_username}}';
+    </script> 
+    <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+    <script type="text/javascript" src="{% static 'js/peer.js' %}"></script>
+{% endblock %}

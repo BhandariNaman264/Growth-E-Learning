@@ -1,0 +1,206 @@
+{% extends 'builder.html' %}
+
+{% block header %}
+<title>Company Profile</title>
+{% endblock %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'companies' %}">Companies</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ company_obj.name }}</li>
+        </ol>
+
+    </nav>
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{ company_obj.name }}
+            <small class="text-primary">id:{{company_obj.id}}</small>
+        </h1>
+
+        <a href="{% url 'companies' %}" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm"><i
+        class="fas fa-sm text-white-50"></i>< Back to Company Home</a>
+    </div>
+
+
+
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <!-- Photos Card -->
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Company Gallery</h6>
+                    {% if user in admins or user in members %}
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink3"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-edit fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                             aria-labelledby="dropdownMenuLink3">
+                            <div class="dropdown-header">Admin / Member Actions:</div>
+                            <a class="dropdown-item" href="{% url 'manage_photos' company_obj.id %}">Manage photos</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="row">
+                        {% for photo in photos %}
+                        <div class="col-md-6 mb-4">
+                            <!--Company photos-->
+                            <img src="{{ photo.photo.url }}" alt="photo" class="w-100 shadow-1-strong rounded mb-4">
+                            {{ photo.description }}
+                            <br>
+                            <small><i>Uploaded: {{ photo.date_added }} <span class="text-primary">id:{{ photo.id }}</span></i></small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Files Card -->
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Company Files</h6>
+                    {% if user in admins or user in members %}
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink4"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-edit fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                             aria-labelledby="dropdownMenuLink4">
+                            <div class="dropdown-header">Admin / Member Actions:</div>
+                            <a class="dropdown-item" href="{% url 'manage_files' company_obj.id %}">Manage files</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <p>Here are the company files</p>
+                    <div class="row">
+                        <!-- File Card -->
+                        {% for file in files %}
+                        <div class=" col-md-6 mb-4">
+                            <div class="card border-left-{{file.tag}} shadow h-100 py-2" >
+                                <div class="card-body row no-gutters align-items-center">
+                                    <div class="col-10">
+                                        <div class="text-xs font-weight-bold text-{{file.tag}} text-uppercase mb-1">
+                                            {{file.get_tag_display}}</div>
+                                        <a href="{{ file.file.url }}" target="_blank">
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{file.name}}</div></a>
+                                        <div>
+                                            <small>
+                                                <i>{% if file.description %} {{ file.description }}
+                                                    {% else %} No Description {% endif %}</i><br>
+                                                <i>{{ file.date_added }} <span class="text-primary">id:{{ file.id }}</span></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-2"><i class="fas fa-file-contract fa-2x text-gray-300"></i></div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <!-- Details Card -->
+            {% include "company/partials/company_card.html" %}
+
+            <!-- Members Card -->
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Company Members</h6>
+                    {% if user in admins or user in members %}
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                            aria-labelledby="dropdownMenuLink2">
+                            {% if user in admins %}
+                            <div class="dropdown-header">Admin Actions:</div>
+                            <a class="dropdown-item" href="{% url 'manage_users' company_obj.id %}">Manage users</a>
+                            <div class="dropdown-divider"></div>
+                            {% else %}
+                            <div class="dropdown-header">Members Actions:</div>
+                            {% endif %}
+                            <!--Button: Leave this company-->
+                            <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#leaveCompanyModal">
+                                Leave this company
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <b>Admins:</b>
+                    <ul>
+                        {% if admins %}
+                        {% for user in admins %}
+                        <li> <a href="{% url 'profile' user.username %}">{{ user.username }}</a></li>
+                        {% endfor %}
+                        {% else %} No admins
+                        {% endif %}
+                    </ul>
+
+                    <b>Members:</b>
+                    <ul>
+                        {% if members %}
+                        {% for user in members %}
+                        <li> <a href="{% url 'profile' user.username %}">{{ user.username }}</a></li>
+                        {% endfor %}
+                        {% else %} No members
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+<!-- Leave Company Modal-->
+<div class="modal fade" id="leaveCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure to Leave this company?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">You will need to request again to join this company</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <form action="" method="POST">{% csrf_token %}
+                    <input type="submit" class="btn btn-danger" name="leave_this_company" value="Leave this company" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true" >&times;</span>
+      <!--This is where I will change this shit button to actually do things-->
+    </button>
+    {{ message }}
+
+    <!--Render buttons for special messages-->
+    {% if message.extra_tags == "new_member_request" %}
+      <hr>
+      <a class="btn btn-success" href="{% url 'manage_users' company_obj.id %}">View the request</a>
+
+    {% elif message.extra_tags == "no_company" %}
+      <a href="{% url 'add_company'%}">create one now?</a><br>
+      Or, if your company is already created, search and join it below!
+
+    {% elif message.extra_tags == "guest_view_company_profile" %}
+      <a href="{% url 'join_company' company_obj.id%}">request to join this company</a><br>
+
+    {% endif %}
+  </div>
+{% endfor %}
